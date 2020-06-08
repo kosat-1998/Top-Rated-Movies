@@ -5,17 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.topratedmovies.adapter.MoviesAdapter
+import com.example.topratedmovies.model.Result
 import com.example.topratedmovies.viewmodel.MoviesViewModel
 import kotlinx.android.synthetic.main.fragment_movies.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class MoviesFragment : Fragment() {
+class MoviesFragment : Fragment(), MoviesAdapter.ClickListener {
 
     private lateinit var moviesViewModel: MoviesViewModel
     private lateinit var moviesAdapter: MoviesAdapter
@@ -34,19 +37,20 @@ class MoviesFragment : Fragment() {
 
 
         moviesAdapter = MoviesAdapter()
+        moviesAdapter.setClick(this)
         recyclerMovies.apply {
             adapter = moviesAdapter
             layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
         }
-        observedViewModel()
+        observedViewModel()             //get
     }
 
     override fun onResume() {
         super.onResume()
-        moviesViewModel.loadResults()
+        moviesViewModel.loadResults()           //load or set
     }
 
-    fun observedViewModel(){
+    private fun observedViewModel() {
 
         moviesViewModel = ViewModelProvider(this)
             .get(MoviesViewModel::class.java)
@@ -58,5 +62,13 @@ class MoviesFragment : Fragment() {
             })
 
 
+    }
+
+    override fun onClick(result: Result) {
+
+        Toast.makeText(context, "${result.id}", Toast.LENGTH_LONG).show()
+        var movieId = result.id
+        var action = MoviesFragmentDirections.actionMoviesFragmentToDetailFragment(movieId)
+        findNavController().navigate(action)
     }
 }

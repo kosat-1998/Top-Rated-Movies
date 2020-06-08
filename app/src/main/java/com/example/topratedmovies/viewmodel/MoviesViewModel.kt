@@ -11,7 +11,7 @@ import retrofit2.Response
 class MoviesViewModel : ViewModel() {
 
     val moviesApi: MoviesApi = MoviesApi()
-    var allTopMovies: MutableLiveData<Movies> = MutableLiveData()
+    var allTopMovies: MutableLiveData<Movies> = MutableLiveData()           //getter
 
     fun loadResults() {
         val apiCall = moviesApi.getTopMovies("85cd01088c47c4b5e700ab0ee81b6d69")

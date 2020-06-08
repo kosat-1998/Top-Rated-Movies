@@ -25,4 +25,5 @@ class MoviesApi {
     }
 
     fun getTopMovies(apiKey: String): Call<Movies> = apiInterface.getTopRatedMovie(apiKey)
+    fun detailMovie(movieId : Int , apiKey: String) = apiInterface.detailMovie(movieId,apiKey)
 }
